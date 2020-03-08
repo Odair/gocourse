@@ -16,6 +16,20 @@ message CalculatorResponse{
     int32 result =1;
 }
 
+message CalculatingManyTimes {
+    int32 number=1;
+}
+
+message CalculatorManyTimesRequest{
+    Calculating calculating =1;
+}
+
+message CalculatorManyTimesResponse{
+    int32 result =1;
+}
+
 service CalculatorService{
     rpc Calculator (CalculatorRequest) returns (CalculatorResponse);
+
+    rpc CalculatorManyTimes (CalculatorManyTimesRequest) returns (stream CalculatorManyTimesResponse);
 }
