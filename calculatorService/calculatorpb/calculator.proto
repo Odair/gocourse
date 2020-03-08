@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package calculator;
+option go_package="calculatorpb";
+
+message Calculating {
+    int first_number=1;
+    int second_number=2;
+}
+
+message CalculatorRequest{
+    Greeting greeting =1;
+}
+
+message CalculatorResponse{
+    int result =1;
+}
+
+service CalculatorService{
+    rpc Greet (CalculatorRequest) returns (CalculatorResponse);
+}
