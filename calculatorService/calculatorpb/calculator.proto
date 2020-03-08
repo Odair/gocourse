@@ -4,18 +4,18 @@ package calculator;
 option go_package="calculatorpb";
 
 message Calculating {
-    int first_number=1;
-    int second_number=2;
+    int32 first_number=1;
+    int32 second_number=2;
 }
 
 message CalculatorRequest{
-    Greeting greeting =1;
+    Calculating calculating =1;
 }
 
 message CalculatorResponse{
-    int result =1;
+    int32 result =1;
 }
 
 service CalculatorService{
-    rpc Greet (CalculatorRequest) returns (CalculatorResponse);
+    rpc Calculator (CalculatorRequest) returns (CalculatorResponse);
 }
