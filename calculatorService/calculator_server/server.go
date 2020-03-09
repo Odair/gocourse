@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
+	"time"
 
 	"github.com/odair/gocourse/calculatorService/calculatorpb"
+	"github.com/odair/gocourse/greet/greetpb"
 	"google.golang.org/grpc"
 
 )
@@ -24,6 +27,21 @@ func (*server) Calculator(ctx context.Context, req *calculatorpb.CalculatorReque
 		Result: result,
 	}
 	return res, nil
+}
+
+func (*server) CalculatorManyTimes(req *calculatorpb.CalculatorManyTimesRequest, stream calculatorpb.CalculatorService_CalculatorManyTimesServer) error {
+	log.Printf("GreetManyTimes function was invoked by: %v", req)
+	number := req.GetCalculating().GetNumber()
+
+	for i := 0; i <= 10; i++ {
+		result := "Hello " + firstName + " number " + strconv.Itoa(i)
+		res := &greetpb.GreetManyTimesResponse{
+			Result: result,
+		}
+		stream.Send(res)
+		time.Sleep(1000 * time.Millisecond)
+	}
+	return nil
 }
 
 func main() {
