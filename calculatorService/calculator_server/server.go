@@ -28,7 +28,7 @@ func (*server) Calculator(ctx context.Context, req *calculatorpb.CalculatorReque
 }
 
 func (*server) CalculatorManyTimes(req *calculatorpb.CalculatorManyTimesRequest, stream calculatorpb.CalculatorService_CalculatorManyTimesServer) error {
-	log.Printf("GreetManyTimes function was invoked by: %v", req)
+	log.Printf("CalculatorManyTimes function was invoked by: %v", req)
 	number := req.GetCalculatingManyTimes().GetNumber()
 	var k int32 = 2
 
