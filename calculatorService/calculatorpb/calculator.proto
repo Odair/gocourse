@@ -21,7 +21,7 @@ message CalculatingManyTimes {
 }
 
 message CalculatorManyTimesRequest{
-    Calculating calculating =1;
+    CalculatingManyTimes calculatingManyTimes =1;
 }
 
 message CalculatorManyTimesResponse{

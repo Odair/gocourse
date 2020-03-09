@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/odair/gocourse/calculatorService/calculatorpb"
@@ -21,7 +22,8 @@ func main() {
 
 	c := calculatorpb.NewCalculatorServiceClient(cc)
 
-	doUnary(c)
+	//doUnary(c)
+	doServerStreaming(c)
 }
 
 func doUnary(c calculatorpb.CalculatorServiceClient) {
@@ -41,4 +43,30 @@ func doUnary(c calculatorpb.CalculatorServiceClient) {
 	}
 
 	log.Printf("Result from Calculator: %v", res.Result)
+}
+
+func doServerStreaming(c calculatorpb.CalculatorServiceClient) {
+	log.Println("Starting to do a Server Streaming RPC..")
+
+	req := &calculatorpb.CalculatorManyTimesRequest{
+		CalculatingManyTimes: &calculatorpb.CalculatingManyTimes{
+			Number: 120,
+		},
+	}
+
+	resStream, err := c.CalculatorManyTimes(context.Background(), req)
+	if err != nil {
+		log.Fatalf("Error while calling Calculator stream RPC: %v", err)
+	}
+
+	for {
+		msg, err := resStream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Error while read stream: %v", err)
+		}
+		log.Printf("Response from CalculatorManyTimes: %v", msg.GetResult())
+	}
 }
