@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"time"
@@ -47,6 +48,28 @@ func (*server) CalculatorManyTimes(req *calculatorpb.CalculatorManyTimesRequest,
 		}
 	}
 	return nil
+}
+
+func (*server) NumberAverage(stream calculatorpb.CalculatorService_NumberAverageServer) error {
+	log.Printf("LongGreet function was invoked with a straming request")
+	var soma int32 = 0
+	var quantidade int32 = 0
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			result := float32(soma) / float32(quantidade)
+			return stream.SendAndClose(&calculatorpb.NumberAverageResponse{
+				Result: result,
+			})
+		}
+		if err != nil {
+			log.Fatalf("Error while reading client stream: %v", err)
+		}
+
+		number := req.GetNumberAverage().GetNumber()
+		soma += number
+		quantidade++
+	}
 }
 
 func main() {
