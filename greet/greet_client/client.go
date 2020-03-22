@@ -142,7 +142,7 @@ func doBidiStreaming(c greetpb.GreetServiceClient) {
 			Greeting: &greetpb.Greeting{
 				FirstName: "Ana",
 			},
-		},
+		}, 
 		&greetpb.GreetEveryoneRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Joey",

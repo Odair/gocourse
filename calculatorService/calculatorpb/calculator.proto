@@ -40,10 +40,20 @@ message NumberAverageResponse{
     float result =1;
 }
 
+message FindMaximumRequest {
+    int32 number=1;
+}
+
+message FindMaximumResponse {
+    int32 maximum=1;
+}
+
 service CalculatorService{
     rpc Calculator (CalculatorRequest) returns (CalculatorResponse);
 
     rpc CalculatorManyTimes (CalculatorManyTimesRequest) returns (stream CalculatorManyTimesResponse);
 
     rpc NumberAverage (stream NumberAverageRequest) returns (NumberAverageResponse);
+
+    rpc FindMaximum (stream FindMaximumRequest) returns (stream FindMaximumResponse);
 }
